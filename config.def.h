@@ -50,6 +50,7 @@ static const Rule rules[] = {
 	{ "st",       NULL,       NULL,       0,            0,           1,         1,        -1 },
 	{ "Midori",   NULL,       NULL,       0,            0,           0,         0,        -1 },
 	{ "URxvt",    NULL,       NULL,       0,            0,           1,         1,        -1 },
+	{ "MuPDF", 	  NULL,		  NULL, 	  0, 			0, 			 0, 		1, 		  -1 },
 };
 
 /* layout(s) */
