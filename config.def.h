@@ -51,6 +51,8 @@ static const Rule rules[] = {
 	{ "Midori",   NULL,       NULL,       0,            0,           0,         0,        -1 },
 	{ "URxvt",    NULL,       NULL,       0,            0,           1,         1,        -1 },
 	{ "MuPDF", 	  NULL,		  NULL, 	  0, 			0, 			 0, 		1, 		  -1 },
+	{ "blueman-applet", NULL, NULL, 0, 0, 0, 1, -1 },
+	{ "NetworkManager-applet", NULL, NULL, 0, 0, 0, 1, -1},
 };
 
 /* layout(s) */
