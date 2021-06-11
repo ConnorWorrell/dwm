@@ -3,7 +3,6 @@ tatami(Monitor *m) {
 	unsigned int i, n, nx, ny, nw, nh,
 				 mats, tc,
 				 tnx, tny, tnw, tnh;
-	unsigned int gxappx;
 	Client *c;
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), ++n);
@@ -94,7 +93,6 @@ tatami(Monitor *m) {
 						{
 							tny += (2*tnh)/3 + gappx/2;	
 							tnh = tnh/3 - (3*gappx)/2;
-							//tnh = tnh-tny+ny-gappx;
 							tnx+=gappx;
 							tnw-=gappx*2;
 						}
@@ -124,7 +122,6 @@ tatami(Monitor *m) {
 						else if((i % 5) == 3)//bottom
 						{
 							tny += (3*tnh)/4+gappx/2;
-							//tnh = tnh - ((tnh)/4 - (3*gappx)/2) - ((tnh)/2-2*gappx) - 4*gappx;//(nh)/4-(3*gappx)/2;
 							tnh=tnh/4-(3*gappx)/2;
 							tnx+=gappx;
 							tnw-=2*gappx;
@@ -147,7 +144,7 @@ tatami(Monitor *m) {
 			ny+=nh;
 			}
 			
-			gxappx=gappx;
+			gappx=gappx;
 
 			tnw=nw;
 			tnx=nx;
@@ -155,15 +152,11 @@ tatami(Monitor *m) {
 			tny=ny;
 
 			if(mats > 1 && mats == (tc / 5) && tc % 5 == 0){
-				//gxappx=10;
-				//tny-=gappx/2;
 				tnh+=gappx/2;
 			} else if(mats > 1){
-				//gxappx=10;
-				tny-=gappx;
-				tnh+=gappx*2u;
+				tny-=gappx/2;
+				tnh+=gappx;
 			} else if(mats==1 && tc > 5){
-				//gxappx=20;
 				tny-=gappx/2;
 				tnh+=gappx/2;
 			}
@@ -171,37 +164,36 @@ tatami(Monitor *m) {
 			switch(i % 5)
 			{
 				case 0: //top-left-vert
-					tnw = (tnw)/3 - (3*gxappx)/2;
-					tnh = (tnh*2)/3 - (3*gxappx)/2;
-					tnx+=gxappx;
-					tny+=gxappx;
+					tnw = (tnw)/3 - (3*gappx)/2;
+					tnh = (tnh*2)/3 - (3*gappx)/2;
+					tnx+=gappx;
+					tny+=gappx;
 					break;
 				case 1: //top-right-hor
-					tnx += (tnw)/3+gxappx/2;
-					tnw = (tnw*2)/3-(3*gxappx/2);
-					tnh = (tnh)/3 - (3*gxappx)/2;
-					tny+=gxappx;
+					tnx += (tnw)/3+gappx/2;
+					tnw = (tnw*2)/3-(3*gappx/2);
+					tnh = (tnh)/3 - (3*gappx)/2;
+					tny+=gappx;
 					break;
 				case 2: //center
-					tnx += (tnw)/3+gxappx/2;
-					tnw = (tnw)/3-gxappx;
+					tnx += (tnw)/3+gappx/2;
+					tnw = (tnw)/3-gappx;
 					int tnytmp = tny;
-					tny += (tnh)/3+gxappx/2;
-					tnh = (tnh*2)/3-(3*gxappx)/2+(tnytmp+gxappx-tny);
-					//tnh = (tnh)/3-gxappx;
+					tny += (tnh)/3+gappx/2;
+					tnh = (tnh*2)/3-(3*gappx)/2+(tnytmp+gappx-tny);
+					//tnh = (tnh)/3-gappx;
 					break;
 				case 3: //bottom-right-vert
-					tnx += (tnw*2)/3+gxappx/2;
-					tnw = (tnw)/3-(3*gxappx)/2;
-					tny += (tnh)/3+gxappx/2;
-					tnh = (tnh*2)/3-(3*gxappx)/2;
+					tnx += (tnw*2)/3+gappx/2;
+					tnw = (tnw)/3-(3*gappx)/2;
+					tny += (tnh)/3+gappx/2;
+					tnh = (tnh*2)/3-(3*gappx)/2;
 					break;
 				case 4: //(oldest) bottom-left-hor
-					tnw = (2*tnw)/3-(3*gxappx)/2;
-					tny += (2*tnh)/3+gxappx/2;
-					//tnh = (tnh)/3-(3*gxappx)/2;
-					tnh = tnh-(tnh*2)/3-(3*gxappx)/2;
-					tnx+=gxappx;
+					tnw = (2*tnw)/3-(3*gappx)/2;
+					tny += (2*tnh)/3+gappx/2;
+					tnh = tnh-(tnh*2)/3-(3*gappx)/2;
+					tnx+=gappx;
 					break;
 				default:
 					break;
