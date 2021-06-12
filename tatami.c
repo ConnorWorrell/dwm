@@ -16,6 +16,8 @@ tatami(Monitor *m) {
 
 	c = nexttiled(m->clients);
 	
+	int nm = m->nmaster > n ? n : m->nmaster;
+
 	//if(n != 1)  nw = m->ww * m->mfact;
 				ny = m->wy;
 	//Master				
@@ -28,9 +30,9 @@ tatami(Monitor *m) {
 	//for (i = 0/*, my = ty = m->gappx, c = nexttiled(m->clients); c; */c = nexttiled(c->next), i++)
 		//h = (m->wh - my) * (c->cfact / mfacts) - m->gappx;
 		int nnx = nx + gxappx;
-		int nny = ny + nh*i/m->nmaster + (i==0 ? gxappx : (i==m->nmaster-1 ? gxappx/2 : gxappx/2));
-		int nnw = nw - (n==m->nmaster ? 2*gxappx : (3*gxappx)/2);
-		int nnh = nh/m->nmaster - (i==0 ? (i==m->nmaster-1 ? 2*gxappx : 2*gxappx) : (i==m->nmaster-1 ? (3*gxappx)/2 : (3*gxappx)/2));
+		int nny = ny + nh*i/nm + (i==0 ? gxappx : (i==nm-1 ? gxappx/2 : gxappx/2));
+		int nnw = nw - (n==nm ? 2*gxappx : (3*gxappx)/2);
+		int nnh = nh/nm - (i==0 ? (i==nm-1 ? 2*gxappx : 2*gxappx) : (i==nm-1 ? (3*gxappx)/2 : (3*gxappx)/2));
 
 		resize(c, nnx, nny, nnw, nnh, 0);
 		//if (my + HEIGHT(c) + m->gappx < m->wh)
