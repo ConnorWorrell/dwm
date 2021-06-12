@@ -46,6 +46,8 @@ tatami(Monitor *m) {
 			tnh+=m->gappx/2;
 		}
 
+		int tnytmp = tny;
+
 		switch(tc - (mats*5))
 				{
 					case 1://fill
@@ -65,7 +67,6 @@ tatami(Monitor *m) {
 						}
 						else if((i % 5) == 1) //down
 						{
-							int tnytmp = tny;
 							tny = ny+2*m->gappx+nh/2-(m->gappx*3)/2;
 							tnh=tnh-(tny-tnytmp)-m->gappx;
 							tnw-=2*m->gappx;
@@ -91,7 +92,6 @@ tatami(Monitor *m) {
 						}
 						else if((i % 5) == 2)//bottom
 						{
-							int tnytmp=tny;
 							tny += (2*tnh)/3 + m->gappx/2;	
 							tnh=tnh-(tny - tnytmp)-m->gappx;
 							tnx+=m->gappx;
@@ -122,7 +122,6 @@ tatami(Monitor *m) {
 						}
 						else if((i % 5) == 3)//bottom
 						{
-							int tnytmp = tny;
 							tny += (3*tnh)/4+m->gappx/2;
 							tnh=tnh-(tny-tnytmp)-m->gappx;
 							tnx+=m->gappx;
@@ -161,6 +160,8 @@ tatami(Monitor *m) {
 				tnh+=m->gappx/2;
 			}
 
+			int tnytmp = tny;
+
 			switch(i % 5)
 			{
 				case 0: //top-left-vert
@@ -178,21 +179,19 @@ tatami(Monitor *m) {
 				case 2: //center
 					tnx += (tnw)/3+m->gappx/2;
 					tnw = (tnw)/3-m->gappx;
-					int tnytmp = tny;
 					tny += (tnh)/3+m->gappx/2;
 					tnh = (tnh*2)/3-(3*m->gappx)/2+(tnytmp+m->gappx-tny);
-					//tnh = (tnh)/3-m->gappx;
 					break;
 				case 3: //bottom-right-vert
 					tnx += (tnw*2)/3+m->gappx/2;
 					tnw = (tnw)/3-(3*m->gappx)/2;
 					tny += (tnh)/3+m->gappx/2;
-					tnh = (tnh*2)/3-(3*m->gappx)/2;
+					tnh = tnh-(tny-tnytmp)-m->gappx;
 					break;
 				case 4: //(oldest) bottom-left-hor
 					tnw = (2*tnw)/3-(3*m->gappx)/2;
 					tny += (2*tnh)/3+m->gappx/2;
-					tnh = tnh-(tnh*2)/3-(3*m->gappx)/2;
+					tnh = tnh-(tny-tnytmp)-m->gappx;
 					tnx+=m->gappx;
 					break;
 				default:
