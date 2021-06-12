@@ -31,8 +31,8 @@ tatami(Monitor *m) {
 		//h = (m->wh - my) * (c->cfact / mfacts) - m->gappx;
 		int nnx = nx + gxappx;
 		int nny = ny + nh*i/nm + (i==0 ? gxappx : (i==nm-1 ? gxappx/2 : gxappx/2));
-		int nnw = nw - (n==nm ? 2*gxappx : (3*gxappx)/2);
-		int nnh = nh/nm - (i==0 ? (i==nm-1 ? 2*gxappx : 2*gxappx) : (i==nm-1 ? (3*gxappx)/2 : (3*gxappx)/2));
+		int nnw = nw - (n==nm ? (3*gxappx)/2 : (3*gxappx)/2);
+		int nnh = nh/nm - (i==0 ? (i==nm-1 ? 5*gxappx/2 : 2*gxappx) : (i==nm-1 ? (3*gxappx)/2 : (3*gxappx)/2));
 
 		resize(c, nnx, nny, nnw, nnh, 0);
 		//if (my + HEIGHT(c) + m->gappx < m->wh)
