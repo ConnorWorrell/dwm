@@ -98,6 +98,7 @@ static const char *randWall[] =  { "setWallpaper", "-r", NULL };
 // static const char *termcmd[]  = { "st", NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *lock[] = { "lock", NULL };
+static const char *volume[] = { "urxvt", "-e", "pulsemixer" , NULL };
 
 
 static Key keys[] = {
@@ -106,6 +107,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ ALTKEY,						XK_l,	   spawn, 		   {.v = lock } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = randWall} },
+	{ MODKEY,                       XK_v,      spawn,          {.v = volume} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
