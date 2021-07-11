@@ -53,6 +53,7 @@ static const Rule rules[] = {
 	{ "MuPDF", 	  NULL,		  NULL, 	  0, 			0, 			 0, 		1, 		  -1 },
 	{ "blueman-applet", NULL, NULL, 0, 0, 0, 1, -1 },
 	{ "NetworkManager-applet", NULL, NULL, 0, 0, 0, 1, -1},
+	{ "game_sys.exe", NULL,   NULL,       0,            0,           0,         1,        -1 },
 };
 
 /* layout(s) */
@@ -99,6 +100,7 @@ static const char *randWall[] =  { "setWallpaper", "-r", NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *lock[] = { "lock", NULL };
 static const char *volume[] = { "urxvt", "-e", "pulsemixer" , NULL };
+static const char *browser[] = { "firejail", "brave" , NULL };
 
 
 static Key keys[] = {
@@ -108,6 +110,7 @@ static Key keys[] = {
 	{ ALTKEY,						XK_l,	   spawn, 		   {.v = lock } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = randWall} },
 	{ MODKEY,                       XK_v,      spawn,          {.v = volume} },
+	{ MODKEY,                       XK_n,      spawn,          {.v = browser} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
