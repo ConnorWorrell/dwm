@@ -86,6 +86,8 @@ tatamiReWrite(Monitor *m) {
 	nx += nw; // Move nx to stack side
 	nw = m->ww - nw; // Change nw to stack width
 	ny = 0;
+
+	Bool Bottom = False;
 	
 
 	if(n>m->nmaster) // If there are stack windows
@@ -96,7 +98,7 @@ tatamiReWrite(Monitor *m) {
 
 		ny = m->wy + ny + m->gappx;
 
-		Bool Bottom = 0;
+		Bottom = 0;
 		
 		// less than 5 mats mat
 		for(i = 0; c && (i < (tc % 5)); c = nexttiled(c->next))
@@ -218,7 +220,7 @@ tatamiReWrite(Monitor *m) {
 
 		for(i = 0; c && (mats>0); c = nexttiled(c->next)) {
 
-			Bool Bottom = 0;
+			Bottom = 0;
 				
 			tnw=nw;
 			tnx=nx;
@@ -286,6 +288,10 @@ tatamiReWrite(Monitor *m) {
 			if (i/5 == mats-1 && Bottom){
 				tnh = nh-tny-m->gappx + m->wy;
 			}
+			
+			++i;
+
+			resize(c, tnx, tny, tnw - 2 * c->bw, tnh - 2 * c->bw, False);
 		}
 	}
 }
