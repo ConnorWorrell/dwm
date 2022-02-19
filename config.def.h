@@ -67,6 +67,7 @@ static const Rule rules[] = {
 	{ "blueman-applet", NULL, NULL, 0, 0, 0, 1, -1 },
 	{ "NetworkManager-applet", NULL, NULL, 0, 0, 0, 1, -1},
 	{ "game_sys.exe", NULL,   NULL,       0,            0,           0,         1,        -1 },
+	{ "Alacritty", NULL,      NULL,       0,            0,           1,         1,        -1 },
 };
 
 /* layout(s) */
