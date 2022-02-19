@@ -105,16 +105,18 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+static const char terminalemulator[] = "alacritty";
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *randWall[] =  { "setWallpaper", "-r", NULL };
 // static const char *termcmd[]  = { "st", NULL };
-static const char *termcmd[]  = { "urxvt", NULL };
+static const char *termcmd[]  = { terminalemulator, NULL };
 static const char *lock[] = { "lock", NULL };
-static const char *volume[] = { "urxvt", "-e", "pulsemixer" , NULL };
+static const char *volume[] = { terminalemulator, "-e", "pulsemixer" , NULL };
 static const char *browser[] = { "firejail", "brave" , NULL };
-static const char *calculator[] = {"urxvt", "-e", "qalc", NULL };
+static const char *calculator[] = {terminalemulator, "-e", "qalc", NULL };
 
 
 static Key keys[] = {
@@ -168,7 +170,8 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,      quit,           {1} },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} }, 
 };
 
 /* button definitions */
