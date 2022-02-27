@@ -49,6 +49,21 @@ static const unsigned int alphas[][3]      = {
 	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+const char *spcmd3[] = {"st", "-n", "calculator", "-g", "144x41", "-e", "qalc", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+	{"spranger",    spcmd2},
+	{"calculator",   spcmd3},
+};
+
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -68,6 +83,9 @@ static const Rule rules[] = {
 	{ "NetworkManager-applet", NULL, NULL, 0, 0, 0, 1, -1},
 	{ "game_sys.exe", NULL,   NULL,       0,            0,           0,         1,        -1 },
 	{ "Alacritty", NULL,      NULL,       0,            0,           1,         1,        -1 },
+	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,		1, 1,	 -1 },
+	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,		1, 1,	 -1 },
+	{ NULL,		  "calculator",	NULL,		SPTAG(2),		1,		1, 1,	 -1 },
 };
 
 /* layout(s) */
@@ -117,7 +135,8 @@ static const char *termcmd[]  = { terminalemulator, NULL };
 static const char *lock[] = { "lock", NULL };
 static const char *volume[] = { terminalemulator, "-e", "pulsemixer" , NULL };
 static const char *browser[] = { "firejail", "brave" , NULL };
-static const char *calculator[] = {terminalemulator, "-e", "qalc", NULL };
+//static const char *calculator[] = {terminalemulator, "-e", "qalc", NULL };
+
 
 
 static Key keys[] = {
@@ -128,7 +147,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_w,      spawn,          {.v = randWall} },
 	{ MODKEY,                       XK_v,      spawn,          {.v = volume} },
 	{ MODKEY,                       XK_n,      spawn,          {.v = browser} },
-	{ MODKEY,                       XK_c,      spawn,          {.v = calculator}},
+	//{ MODKEY,                       XK_c,      spawn,          {.v = calculator}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
@@ -139,16 +158,16 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
 	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
-	{ MODKEY,                       XK_x,      transfer,       {0} },
+	{ MODKEY|ShiftMask,                       XK_x,      transfer,       {0} },
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    comboview,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_c,      setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY|ShiftMask,                       XK_m,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,                       XK_c,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,                       XK_y,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -172,7 +191,10 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {1} },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} }, 
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {0} },
+	{ MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } },
+	{ MODKEY,            			XK_u,	   togglescratch,  {.ui = 1 } },
+	{ MODKEY,            			XK_c,	   togglescratch,  {.ui = 2 } },
 };
 
 /* button definitions */
@@ -187,7 +209,7 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
