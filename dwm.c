@@ -666,19 +666,38 @@ buttonpress(XEvent *e)
 		selmon = m;
 		focus(NULL);
 	}
+
+	FILE *log = NULL;
+
+	if (!(log = fopen("/tmp/dwm.log", "a"))) {
+		/* The file couldn't be opened; handle this error. */
+	}
+
+	/*
+	Log entries should end with a newline so later entries don't start on the
+	same line. The buffer is automatically flushed when a newline is reached, so
+	calling fflush is not necessary.
+	*/
+	//fprintf(log, "some debugging information %d\n", d);
+
 	if (ev->window == selmon->barwin) {
-                if (ev->x < ble - blw) {
+	            fprintf(log, "ev %d ble %d blw %d", ev->x, ble, blw);
+                if (ev->x < ble - blw + getsystraywidth()) {
+						fprintf(log, "if 1\n");
                         i = -1, x = -ev->x;
                         do
                                 x += TEXTW(tags[++i]);
                         while (x <= 0);
                         click = ClkTagBar;
                         arg.ui = 1 << i;
-                } else if (ev->x < ble)
+                } else if (ev->x < ble + getsystraywidth()) {
+						fprintf(log, "if 2");
                         click = ClkLtSymbol;
-                else if (ev->x < selmon->ww - wstext - getsystraywidth()) //Modified from systray, may need work.
+                } else if (ev->x < selmon->ww - wstext - getsystraywidth()) { //Modified from systray, may need work.
+						fprintf(log, "if 3");
                         click = ClkWinTitle;
-                else if ((x = selmon->ww - RSPAD - ev->x) > 0 && (x -= wstext - LSPAD - RSPAD + getsystraywidth()) <= 0) {
+                } else if ((x = selmon->ww - RSPAD - ev->x) > 0 && (x -= wstext - LSPAD - RSPAD + getsystraywidth()) <= 0) {
+						fprintf(log, "if 4");
                         updatedwmblockssig(x);
                         click = ClkStatusText;
                 } else
@@ -694,6 +713,7 @@ buttonpress(XEvent *e)
 		if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
 		&& CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
 			buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
+	fclose(log);
 }
 
 void
