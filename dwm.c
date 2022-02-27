@@ -666,42 +666,30 @@ buttonpress(XEvent *e)
 		selmon = m;
 		focus(NULL);
 	}
-
-	FILE *log = NULL;
-
-	if (!(log = fopen("/tmp/dwm.log", "a"))) {
-		/* The file couldn't be opened; handle this error. */
-	}
-
-	/*
-	Log entries should end with a newline so later entries don't start on the
-	same line. The buffer is automatically flushed when a newline is reached, so
-	calling fflush is not necessary.
-	*/
-	//fprintf(log, "some debugging information %d\n", d);
-
+	unsigned int vacantSpace = 0;
 	if (ev->window == selmon->barwin) {
-	            fprintf(log, "ev %d ble %d blw %d", ev->x, ble, blw);
-                if (ev->x < ble - blw + getsystraywidth()) {
-						fprintf(log, "if 1\n");
-                        i = -1, x = -ev->x;
-                        do
-                                x += TEXTW(tags[++i]);
-                        while (x <= 0);
-                        click = ClkTagBar;
-                        arg.ui = 1 << i;
-                } else if (ev->x < ble + getsystraywidth()) {
-						fprintf(log, "if 2");
-                        click = ClkLtSymbol;
-                } else if (ev->x < selmon->ww - wstext - getsystraywidth()) { //Modified from systray, may need work.
-						fprintf(log, "if 3");
-                        click = ClkWinTitle;
-                } else if ((x = selmon->ww - RSPAD - ev->x) > 0 && (x -= wstext - LSPAD - RSPAD + getsystraywidth()) <= 0) {
-						fprintf(log, "if 4");
-                        updatedwmblockssig(x);
-                        click = ClkStatusText;
-                } else
-                        return;
+		if (ev->x < ble - blw + getsystraywidth() + vacantSpace) {
+				i = -1, x = -ev->x;
+				unsigned int occ = 0;
+				for(c = m->clients; c; c=c->next)
+					occ |= c->tags;
+				do {
+					/* Do not reserve space for vacant tags */
+					if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+						continue;
+					x += TEXTW(tags[i]);
+				} while (x <= 0 && ++i < LENGTH(tags));
+				click = ClkTagBar;
+				arg.ui = 1 << i;
+		} else if (ev->x < ble + getsystraywidth() + vacantSpace) {
+				click = ClkLtSymbol;
+		} else if (ev->x < selmon->ww - wstext - getsystraywidth()) { //Modified from systray, may need work.
+				click = ClkWinTitle;
+		} else if ((x = selmon->ww - RSPAD - ev->x) > 0 && (x -= wstext - LSPAD - RSPAD + getsystraywidth()) <= 0) {
+				updatedwmblockssig(x);
+				click = ClkStatusText;
+		} else
+				return;
 	} else if ((c = wintoclient(ev->window))) {
 		focus(c);
 		restack(selmon);
@@ -713,7 +701,6 @@ buttonpress(XEvent *e)
 		if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
 		&& CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
 			buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
-	fclose(log);
 }
 
 void
@@ -1110,13 +1097,12 @@ drawbar(Monitor *m)
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
+		/* Do not draw vacant tags */
+		if(!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+			continue;
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2 - 2, tags[i], urg & 1 << i);
-		if (occ & 1 << i)
-			drw_rect(drw, x + boxs, boxs, boxw, boxw,
-				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-				urg & 1 << i);
 		x += w;
 	}
 	w = TEXTW(m->ltsymbol);
