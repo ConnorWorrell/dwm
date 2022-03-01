@@ -56,11 +56,13 @@ typedef struct {
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
 const char *spcmd3[] = {"st", "-n", "calculator", "-g", "144x41", "-e", "qalc", NULL };
+const char *spcmd4[] = {"st", "-n", "volume", "-g", "144x41", "-e", "pulsemixer", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
 	{"spranger",    spcmd2},
 	{"calculator",   spcmd3},
+	{"volume", spcmd4},
 };
 
 
@@ -86,6 +88,7 @@ static const Rule rules[] = {
 	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,		1, 1,	 -1 },
 	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,		1, 1,	 -1 },
 	{ NULL,		  "calculator",	NULL,		SPTAG(2),		1,		1, 1,	 -1 },
+	{ NULL,		  "volume",	 NULL,		    SPTAG(3),		1,		1, 1,	 -1 },
 };
 
 /* layout(s) */
@@ -133,7 +136,7 @@ static const char *randWall[] =  { "setWallpaper", "-r", NULL };
 // static const char *termcmd[]  = { "st", NULL };
 static const char *termcmd[]  = { terminalemulator, NULL };
 static const char *lock[] = { "lock", NULL };
-static const char *volume[] = { terminalemulator, "-e", "pulsemixer" , NULL };
+//static const char *volume[] = { terminalemulator, "-e", "pulsemixer" , NULL };
 static const char *browser[] = { "firejail", "brave" , NULL };
 //static const char *calculator[] = {terminalemulator, "-e", "qalc", NULL };
 
@@ -145,7 +148,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ ALTKEY,						XK_l,	   spawn, 		   {.v = lock } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = randWall} },
-	{ MODKEY,                       XK_v,      spawn,          {.v = volume} },
+	//{ MODKEY,                       XK_v,      spawn,          {.v = volume} },
 	{ MODKEY,                       XK_n,      spawn,          {.v = browser} },
 	//{ MODKEY,                       XK_c,      spawn,          {.v = calculator}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
@@ -195,6 +198,7 @@ static Key keys[] = {
 	{ MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } },
 	{ MODKEY,            			XK_u,	   togglescratch,  {.ui = 1 } },
 	{ MODKEY,            			XK_c,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY,            			XK_v,	   togglescratch,  {.ui = 3 } },
 };
 
 /* button definitions */
