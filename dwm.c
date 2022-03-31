@@ -3322,13 +3322,18 @@ void
 shiftview(const Arg *arg) {
 	Arg shifted;
 
-	if(arg->i > 0) // left circular shift
-		shifted.ui = (selmon->tagset[selmon->seltags] << arg->i)
-		   | (selmon->tagset[selmon->seltags] >> (LENGTH(tags) - arg->i));
+	unsigned int seltagset = selmon->tagset[selmon->seltags] & ~SPTAGMASK;
 
-	else // right circular shift
-		shifted.ui = selmon->tagset[selmon->seltags] >> (- arg->i)
-		   | selmon->tagset[selmon->seltags] << (LENGTH(tags) + arg->i);
+	if(arg->i > 0) { // left circular shift
+		shifted.ui = (seltagset << arg->i)
+		   | (seltagset >> (LENGTH(tags) - arg->i));
+		shifted.ui &= ~SPTAGMASK;
+
+	} else {// right circular shift
+		shifted.ui = seltagset >> (- arg->i)
+		   | seltagset << (LENGTH(tags) + arg->i);
+		shifted.ui &= ~SPTAGMASK;
+	}
 
 	view(&shifted);
 }
