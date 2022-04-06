@@ -53,10 +53,14 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd3[] = {"st", "-n", "calculator", "-g", "144x41", "-e", "qalc", NULL };
-const char *spcmd4[] = {"st", "-n", "volume", "-g", "144x41", "-e", "pulsemixer", NULL };
+//const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd1[] = {"termScratch", NULL };
+const char *spcmd2[] = {"rangerScratch", NULL };
+const char *spcmd3[] = {"calcScratch", NULL };
+const char *spcmd4[] = {"volumeScratch", NULL };
+//const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
+//const char *spcmd3[] = {"st", "-n", "calculator", "-g", "144x41", "-e", "qalc", NULL };
+//const char *spcmd4[] = {"st", "-n", "volume", "-g", "144x41", "-e", "pulsemixer", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
@@ -134,7 +138,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-i", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *randWall[] =  { "setWallpaper", "-r", NULL };
 // static const char *termcmd[]  = { "st", NULL };
-static const char *termcmd[]  = { terminalemulator, NULL };
+static const char *termcmd[]  = { "bash", "-c", "adjustTerminal || st",  NULL };
 static const char *lock[] = { "lock", NULL };
 //static const char *volume[] = { terminalemulator, "-e", "pulsemixer" , NULL };
 static const char *browser[] = { "firejail", "brave" , NULL };
