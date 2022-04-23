@@ -142,6 +142,7 @@ static const char *termcmd[]  = { "bash", "-c", "adjustTerminal || st",  NULL };
 static const char *lock[] = { "lock", NULL };
 //static const char *volume[] = { terminalemulator, "-e", "pulsemixer" , NULL };
 static const char *browser[] = { "firejail", "brave" , NULL };
+static const char *screenshot[] = {"screenshot", NULL };
 //static const char *calculator[] = {terminalemulator, "-e", "qalc", NULL };
 
 
@@ -155,6 +156,7 @@ static Key keys[] = {
 	//{ MODKEY,                       XK_v,      spawn,          {.v = volume} },
 	{ MODKEY,                       XK_n,      spawn,          {.v = browser} },
 	//{ MODKEY,                       XK_c,      spawn,          {.v = calculator}},
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = screenshot}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
