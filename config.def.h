@@ -58,6 +58,7 @@ const char *spcmd1[] = {"termScratch", NULL };
 const char *spcmd2[] = {"rangerScratch", NULL };
 const char *spcmd3[] = {"calcScratch", NULL };
 const char *spcmd4[] = {"volumeScratch", NULL };
+const char *spcmd5[] = {"browserScratch", NULL };
 //const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
 //const char *spcmd3[] = {"st", "-n", "calculator", "-g", "144x41", "-e", "qalc", NULL };
 //const char *spcmd4[] = {"st", "-n", "volume", "-g", "144x41", "-e", "pulsemixer", NULL };
@@ -67,6 +68,7 @@ static Sp scratchpads[] = {
 	{"spranger",    spcmd2},
 	{"calculator",   spcmd3},
 	{"volume", spcmd4},
+	{"spbrowser", spcmd5},
 };
 
 
@@ -93,6 +95,7 @@ static const Rule rules[] = {
 	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,		1, 1,	 -1 },
 	{ NULL,		  "calculator",	NULL,		SPTAG(2),		1,		1, 1,	 -1 },
 	{ NULL,		  "volume",	 NULL,		    SPTAG(3),		1,		1, 1,	 -1 },
+	{ NULL,		  "spbrowser",	 NULL,	    SPTAG(4),		1,		1, 1,	 -1 },
 };
 
 /* layout(s) */
@@ -157,7 +160,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_n,      spawn,          {.v = browser} },
 	//{ MODKEY,                       XK_c,      spawn,          {.v = calculator}},
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = screenshot}},
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
@@ -205,6 +208,7 @@ static Key keys[] = {
 	{ MODKEY,            			XK_u,	   togglescratch,  {.ui = 1 } },
 	{ MODKEY,            			XK_c,	   togglescratch,  {.ui = 2 } },
 	{ MODKEY,            			XK_v,	   togglescratch,  {.ui = 3 } },
+	{ MODKEY,            			XK_b,	   togglescratch,  {.ui = 4 } },
 };
 
 /* button definitions */
